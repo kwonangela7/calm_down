@@ -1,0 +1,132 @@
+<html>
+	<head>
+		<title>GWC Graphics and Animation Week!</title>
+		<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+		<script type="text/processing" data-processing-target="mycanvas">
+		
+		var building;
+		var scroller;
+		var scroller1;
+		
+		void setup(){
+			size(800, 600);
+			background(0, 255, 255);
+			scroller = new Scroller(0, 0, 0);
+			scroller1 = new Scroller(255, 255, 255);
+		}
+		
+		void draw(){
+			background(0, 255, 255);
+			scroller.drawScroller();
+			scroller1.drawScroller();
+		}
+		
+		
+	class Building {
+			var red;
+			var green;
+			var blue;
+			var height;
+			var width;
+			var xPos;
+			var yPos;
+			var xSpeed;
+			
+			Building(startRed, startGreen, startBlue) { //constructor
+				red = startRed;
+				green = startGreen;
+				blue = startBlue;
+				height = random(200, 600); 
+				width = 10;
+				xPos = 800;
+				yPos = random(400, 500);
+				
+				xSpeed = 3;
+			}
+			
+			void drawBuilding(){
+					noStroke();
+					fill(red, green, blue);  
+    				rect(xPos, yPos, width, height); //xPos? yPos?
+			}
+			
+			void move(){
+				xPos--;
+			}
+			
+			int getWidth(){
+				return width;
+			}
+			
+			int getXPos(){
+				return xPos;
+			}
+		}
+		
+	class Scroller {
+			var building;
+			var theXPos;
+			var theWidth;
+			var index;
+			var red;
+			var green;
+			var blue;
+			var buildingList = [];
+			
+			Scroller(startRed, startGreen, startBlue){
+				//alert("constructor");
+				//building = new Building(0, 0, 0);
+				red = startRed;
+				green = startGreen;
+				blue = startBlue;
+				buildingList.push(new Building(red, green, blue));
+				index = 0;
+				//alert("building");
+				theXPos = buildingList[index].getXPos();
+				//alert(theXPos);
+				theWidth = buildingList[index].getWidth();
+			}
+			
+			void drawScroller(){
+				//alert("blah");
+				//alert(theXPos);
+				
+				if(theXPos == 800 - theWidth){ //of the most recent building 
+					//alert("if part");
+					var newBuilding = new Building(red, green, blue); 
+					buildingList.push(newBuilding);
+					index++;
+					//buildingList[index].drawBuilding();
+					//buildingList[index].move();
+					for(var w = 0; w < buildingList.length; w++){
+						buildingList[w].drawBuilding();
+						buildingList[w].move();
+					}
+					theXPos = buildingList[index].getXPos();
+					//alert(index);	
+					
+				}
+				else{
+					//alert("else part");
+					for(var w = 0; w < buildingList.length; w++){
+						buildingList[w].drawBuilding();
+						buildingList[w].move();
+					}
+					theXPos = buildingList[index].getXPos();
+					//alert(index);
+				}
+			}
+	}
+		
+		
+		
+		
+		
+		
+		
+		</script>
+	</head>
+	<body>
+		<canvas id="mycanvas"></canvas>
+	</body>
+</html>
